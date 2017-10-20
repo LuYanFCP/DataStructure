@@ -52,16 +52,5 @@ btp insert(typekey key,btp t)
 
 static void InternalInsert(typekey key,btp t)
 {
-    int i,j,m;
-    if (level<0){
-        newTree = NULL;
-        InsKey = key;
-        btree_level++;
-        flag = 1;
-        return;
-    }
-    for (i = 0, j=t->d-1; i ; ++i);//？
-    if (key == t->k){
 
-    }
 }
