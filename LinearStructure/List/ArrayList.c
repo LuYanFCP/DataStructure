@@ -6,12 +6,12 @@
 
 
 
-static arraycopy(void *src, void *dest, int length); // 拷贝数组的指定位置 到指定数组
+static void arraycopy(void *src, void *dest, int length); // 拷贝数组的指定位置 到指定数组
 
 ArrayList createList()
 {
-    ArrayList list = (ArrayList)malloc(sizeof(struct ArrayList));
-    list->elem = malloc(DEFAULT_VOLUME*sizeof(AnyType));
+    ArrayList list = (ArrayList)malloc(sizeof(struct List));
+    list->elem = malloc((DEFAULT_VOLUME+1)*sizeof(AnyType)); //多一个哨兵
     *list->elem++ = MAX_VALUE; //第一个设置为哨兵 ， 从第二个开始 第二个位置索引是0
     list->length = 0;
     list->listSize = DEFAULT_VOLUME;
@@ -40,7 +40,7 @@ bool insertElem(ArrayList list,AnyType x)
     return true;
 }
 
-static copy(AnyType *src, AnyType *dest, int length)
+static void copy(AnyType *src, AnyType *dest, int length)
 {
 
     while (length--)

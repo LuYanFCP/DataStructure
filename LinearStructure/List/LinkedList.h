@@ -7,6 +7,7 @@
 
 #endif //DATASTRUCTURE_LINKEDLIST_H
 
+#define MAXVALUE 2147483647 // 哨兵
 #define AnyType int
 
 #include <stdbool.h>
@@ -18,7 +19,9 @@ struct Node{
     LinkedList prev;
     AnyType elem;
 };
-
+/*
+ * 传入的LinkedList一直为初始那个
+ */
 
 LinkedList createList();
 bool destroy(LinkedList);
