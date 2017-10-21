@@ -10,8 +10,10 @@ int main()
     for (int i = 0; i <30 ; ++i) {
         push(stack,i);
     }
+    printf("stack->top = %d \n",stack->top);
     for (int j = 0; j <= stack->top ; ++j) {
         printf("%d, ",stack->base[j]);
     }
+    destroyStack(stack);
 
 }
