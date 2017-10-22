@@ -2,15 +2,16 @@
 DataStructure implement by C
 
 + LinearStructure
-    1. List
-    2. Stack
-    3. Queue
+    - [x] List
+    - [x] Stack
+    - [x] Queue
 
 + Tree
-    1. AVLTree
-    2. B-Tree/B+Tree
-    3. splayTree
+    - [ ] BinaryTree
+    - [x] AVLTree
+    - [ ] B-Tree/B+Tree
+    - [ ] splayTree
 
 + Graph
-    + Adjacent matrix
-    + Adjacent List
+    - [ ] Adjacent matrix
+    - [ ] Adjacent List
