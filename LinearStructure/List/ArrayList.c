@@ -3,16 +3,10 @@
 //
 #include "ArrayList.h"
 
-
-
-
-static void arraycopy(void *src, void *dest, int length); // 拷贝数组的指定位置 到指定数组
-
 ArrayList createList()
 {
     ArrayList list = (ArrayList)malloc(sizeof(struct List));
-    list->elem = malloc((DEFAULT_VOLUME+1)*sizeof(AnyType)); //多一个哨兵
-    *list->elem++ = MAX_VALUE; //第一个设置为哨兵 ， 从第二个开始 第二个位置索引是0
+    list->elem = malloc(DEFAULT_VOLUME*sizeof(AnyType)); //多一个哨兵
     list->length = 0;
     list->listSize = DEFAULT_VOLUME;
     return list;
@@ -20,7 +14,7 @@ ArrayList createList()
 
 bool destroy(ArrayList list)
 {
-    free(--list->elem);
+    free(list->elem);
     free(list);
     return true;
 }
@@ -32,7 +26,6 @@ bool insertElem(ArrayList list,AnyType x)
         return false;
     //判断是否没有容量，如果没有按增量大小申请
     if(list->length==list->listSize) {
-
         list->elem = realloc(list->elem, (list->listSize + INCREMENT)*sizeof(AnyType));
         list->listSize += INCREMENT;
     }
@@ -41,12 +34,11 @@ bool insertElem(ArrayList list,AnyType x)
     return true;
 }
 
-static void copy(AnyType *src, AnyType *dest, int length)
+static void copy(AnyType *src, AnyType *dest, int len)
 {
-
-    while (length--)
+    // 把 src 中的len个元素复制到 dest 中
+    while (--len)
         *dest++ = *src++;
-
 }
 
 bool deleteElem(ArrayList list,int pos)
@@ -56,8 +48,10 @@ bool deleteElem(ArrayList list,int pos)
          * 第二个参数为复制到的数组指针，应该从post开始
          * 长度为 length - pos + 1
          */
+        // 如果刚好最后一个在边界可能会溢出 √ 已解决
         copy(list->elem+pos+1, list->elem+pos, (list->length - pos + 1));
         list->length--;
+        return true;
     }
     return false;
 }
@@ -83,6 +77,14 @@ int searchElem(ArrayList list,AnyType x)
 {
     for (int i = 0; i < list ->length ; ++i)
         if (list->elem[i] == x)
-            return true;
-    return false;
+            return i;
+    return -1;
+}
+void printList(ArrayList list)
+{
+    printf("[ ");
+    for (int i = 0; i < list->length ; ++i) {
+        printf("%d, ",list->elem[i]);
+    }
+    printf("]\n");
 }

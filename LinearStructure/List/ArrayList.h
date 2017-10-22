@@ -33,4 +33,4 @@ bool clear(ArrayList);
 AnyType getElem(ArrayList,int);
 bool isEmpty(ArrayList);
 int searchElem(ArrayList,AnyType);
-
+void printList(ArrayList);
