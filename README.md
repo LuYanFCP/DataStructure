@@ -7,7 +7,7 @@ DataStructure implement by C
     - [x] Queue
 
 + Tree
-    - [ ] BinaryTree
+    - [x] BinaryTree
     - [x] AVLTree
     - [ ] B-Tree/B+Tree
     - [ ] splayTree
