@@ -3,5 +3,5 @@ project(DataStructure)
 
 set(CMAKE_C_STANDARD 99)
 
-set(SOURCE_FILES LinearStructure/Stack/Stack.c LinearStructure/Stack/StackTest.c)
+set(SOURCE_FILES LinearStructure/List/ListTest.c LinearStructure/List/LinkedList.c)
 add_executable(data_structure ${SOURCE_FILES})

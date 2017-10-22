@@ -12,6 +12,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 typedef struct Node *LinkedList;
 struct Node{
@@ -32,3 +33,7 @@ bool clear(LinkedList);
 AnyType getElem(LinkedList,int);
 bool isEmpty(LinkedList);
 int searchElem(LinkedList,AnyType);
+bool insertAfter(LinkedList,int,AnyType);
+bool insertBefore(LinkedList,int,AnyType);
+
+void printList(LinkedList);

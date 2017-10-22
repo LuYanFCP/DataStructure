@@ -20,7 +20,7 @@ ArrayList createList()
 
 bool destroy(ArrayList list)
 {
-    free(list->elem);
+    free(--list->elem);
     free(list);
     return true;
 }
@@ -32,7 +32,8 @@ bool insertElem(ArrayList list,AnyType x)
         return false;
     //判断是否没有容量，如果没有按增量大小申请
     if(list->length==list->listSize) {
-        list->elem = realloc(list->elem, INCREMENT);
+
+        list->elem = realloc(list->elem, (list->listSize + INCREMENT)*sizeof(AnyType));
         list->listSize += INCREMENT;
     }
 
