@@ -13,6 +13,12 @@ Stack createStack()
 }
 bool destroyStack(Stack stack)
 {
+    /*
+     * 不能释放void* 指针指向的空间
+     */
+//    for (int i = 0; i < stack->stackSize ; ++i) {
+//        free(stack->base[i]);
+//    }
     free(stack->base);
     free(stack);
     return true;

@@ -7,7 +7,7 @@
 Queue createQueue(int volume)
 {
     Queue queue = (Queue)malloc(sizeof(struct SqQueue));
-    queue->elem = (AnyType)malloc(volume*sizeof(AnyType));
+    queue->elem = malloc(volume*sizeof(AnyType));
     queue->volume = volume;
     queue->front = 0;
     queue->rear = 0;   // 尾指针指向最后一个元素的后一位
@@ -49,11 +49,14 @@ int queueLength(Queue queue)
 bool EnQueue(Queue queue,AnyType x)
 {
     // 判断是否满
-    if (isFull(queue))
+    if (isFull(queue)) {
+        printf("queue is full ,element is %d:\n",x);
         return false;
+    }
     // 获取下一个位置的索引值
     // 如果超过valume-1 直接做 mod 得到新的索引
-    (++queue->front)%=queue->volume;
+    (++queue->front);
+    queue->front%= queue->volume;
     queue->elem[queue->front] = x;
     queue->length++;
     return true;
@@ -62,10 +65,13 @@ bool EnQueue(Queue queue,AnyType x)
 
 AnyType DeQueue(Queue queue)
 {
-    if (isEmpty(queue))
+    if (isEmpty(queue)) {
+        printf("queue is empty\n");
         return false;
+    }
     // 直接做和入队同样的操作
-    (++queue->rear) %= queue->volume;
+    ++queue->rear;
+    queue->rear %= queue->volume;
     queue->length--;
     return queue->elem[queue->rear];
 }

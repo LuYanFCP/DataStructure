@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define AnyType int
+#define AnyType void*
 #define DEFAULT_VOLUME 20 //default_volume = 20
 #define INCREMENT 10 // increment = 10
 typedef struct sqStack *Stack;

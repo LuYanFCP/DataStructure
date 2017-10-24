@@ -13,7 +13,7 @@ LinkedQueue  createQueue()
 {
     LinkedQueue queue = (LinkedQueue) malloc(sizeof(struct Queue));
     queue->length = 0;
-    queue->rear = queue->rear = (QueuePtr) malloc(sizeof(struct QNode));
+    queue->rear = queue->front = (QueuePtr) malloc(sizeof(struct QNode));
     queue->front->next = NULL;
     return queue;
 }
@@ -21,11 +21,11 @@ LinkedQueue  createQueue()
 // - [x] 有问题 未测试
 static bool freeNodes(LinkedQueue queue)
 {
-    QueuePtr rear = queue->rear->next;
+    QueuePtr next = queue->front->next;
     QueuePtr tmp;
-    while (rear){
-        tmp = rear;
-        rear = rear->next;
+    while (next){
+        tmp = next;
+        next = next->next;
         free(tmp);
     }
     return true;
@@ -34,6 +34,7 @@ static bool freeNodes(LinkedQueue queue)
 bool destroyQueue(LinkedQueue queue)
 {
     freeNodes(queue);
+    free(queue->front);
     free(queue);
 }
 
@@ -46,11 +47,11 @@ bool clearQueue(LinkedQueue queue)
 {
     freeNodes(queue);
     queue->length = 0;
-    queue->front = queue->rear;
+    queue->rear = queue->front;
 }
 bool isEmpty(LinkedQueue queue)
 {
-    return queue->front == queue->rear;
+    return !queue->length;
 }
 //bool isFull(LinkedQueue);
 int queueLength(LinkedQueue queue)
@@ -63,16 +64,19 @@ bool EnQueue(LinkedQueue queue,AnyType x)
     QueuePtr newNode = malloc(sizeof(struct QNode));
     newNode->next = NULL;
     newNode->data = x;
-    queue->front->next = queue->front = newNode;
+    queue->rear->next = newNode;
+    queue->rear = newNode;
+    queue->length++;
     return true;
 }
 AnyType DeQueue(LinkedQueue queue)
 {
     if (isEmpty(queue))
         return false;
-    QueuePtr tmp = queue->rear->next;
-    queue->rear->next = tmp->next;
-    AnyType result = queue->rear->data;
+    QueuePtr tmp = queue->front->next;
+    queue->front->next = queue->front->next->next;
+    AnyType result = tmp->data;
     free(tmp);
+    queue->length--;
     return result;
 }

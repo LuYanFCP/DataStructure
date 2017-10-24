@@ -2,6 +2,7 @@
 // Created by luyanfcp on 17-10-4.
 ////
 #include "AVLTree.h"
+#include "../../LinearStructure/Stack/Stack.h"
 //#include <stdlib.h>
 //#include <stddef.h>
 //#include <stdio.h>
@@ -138,10 +139,48 @@ AVLTree findMin(AVLTree t)
 //先序列遍历
 void NLR(AVLTree t)
 {
-    if(t){
-        printf("%d \n",t->elem);
-        NLR(t->left);
-        NLR(t->right);
+//    if(t){
+//        printf("%d \n",t->elem);
+//        NLR(t->left);
+//        NLR(t->right);
+//    }
+    /*
+     * 用栈实现递归操作
+     */
+    AVLTree T = t;
+    Stack stack = createStack();
+    while (T || isEmpty(stack))
+    {
+        while(T){
+            push(stack,T);
+            printf("%d \n",T->elem);
+            T = T->left;
+        }
+        if (!isEmpty(stack)){
+            T = pop(stack);
+            T->right;
+        }
     }
 
+
+//    push(stack,);
+
+}
+
+void LDR(AVLTree tree)
+{
+    AVLTree T = t;
+    Stack stack = createStack();
+    while (T || isEmpty(stack))
+    {
+        while(T){
+            push(stack,T);
+            T = T->left;
+        }
+        if (!isEmpty(stack)){
+            T = pop(stack);
+            printf("%d \n",T->elem);
+            T->right;
+        }
+    }
 }
