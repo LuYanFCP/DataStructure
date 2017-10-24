@@ -8,7 +8,7 @@
 #endif //DATASTRUCTURE_LINKEDLIST_H
 
 #define MAXVALUE 2147483647 // 哨兵
-#define AnyType int
+#define AnyType void*
 
 #include <stdbool.h>
 #include <stdlib.h>

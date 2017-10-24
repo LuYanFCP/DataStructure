@@ -7,7 +7,7 @@
 
 #endif //DATASTRUCTURE_LINKEDQUEUE_H
 
-#define AnyType int
+#define AnyType void*
 
 #include <stdbool.h>
 #include <stdlib.h>

@@ -14,7 +14,7 @@ static LinkedList newNode(LinkedList prev, LinkedList next, AnyType elem)
 LinkedList createList()
 {
     // 初始节点 elem 应该是哨兵
-    return newNode(NULL,NULL,MAXVALUE);
+    return newNode(NULL,NULL,NULL);
 }
 bool destroy(LinkedList list)
 {
@@ -156,7 +156,7 @@ void printList(LinkedList list )
      */
     LinkedList p = list->next;
     while (p !=NULL){
-        printf("%d,",p->elem);
+        printf("%p,",p->elem);
         p = p->next;
     }
 }

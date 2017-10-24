@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#define AnyType int
+#define AnyType void*
 
 typedef struct SqQueue *Queue;
 struct SqQueue{

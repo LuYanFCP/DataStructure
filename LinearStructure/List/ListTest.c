@@ -10,7 +10,7 @@ int main()
      */
     ArrayList arrlist = createList();
     for (int i = 0; i < 30; ++i) {
-        insertElem(arrlist,i);
+        insertElem(arrlist,&i);
     }
     printf("arrlist->length: %d \n",arrlist->length);
     printList(arrlist);
@@ -18,8 +18,8 @@ int main()
     deleteElem(arrlist,5);
 //    deleteElem(arrlist,6);
     printList(arrlist);
-    printf("arrlist[11]: %d \n",getElem(arrlist,11));
-    printf("15-index: %d \n",searchElem(arrlist,15));
+//    printf("arrlist[11]: %d \n",getElem(arrlist,10));
+//    printf("15-index: %d \n",searchElem(arrlist,15));
 
     destroy(arrlist);
 

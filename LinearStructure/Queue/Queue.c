@@ -55,7 +55,7 @@ bool EnQueue(Queue queue,AnyType x)
     }
     // 获取下一个位置的索引值
     // 如果超过valume-1 直接做 mod 得到新的索引
-    (++queue->front);
+    ++queue->front;
     queue->front%= queue->volume;
     queue->elem[queue->front] = x;
     queue->length++;

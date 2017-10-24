@@ -10,7 +10,7 @@
 #define DEFAULT_VOLUME 20 //default_volume = 20
 #define INCREMENT 10 // increment = 10
 #define MAX_VOLUME 1000
-#define AnyType int
+#define AnyType void*
 #define MAX_VALUE 2147483647
 
 #include <stdio.h>

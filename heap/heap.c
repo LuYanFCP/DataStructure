@@ -4,32 +4,39 @@
 #include "heap.h"
 #include <stdio.h>
 /*
- * 此处实现一个最小堆
+ * 此处实现一个堆
  */
+static void sink(Heap  /*h*/, int /*k*/);
 
-
-
-MaxHeap create(int size)
+/*
+ * Q：为什么把comp函数（compare）封装到 heap的结构中，而不是赋值给一个私
+ * 有全局变量（赋值给私有变量，下面就可以直接调用不用在去heap里引用）？
+ * A： comp是判定heap是否是最大堆或者最小堆的标志，付给heap更符合逻辑要求。
+ */
+Heap create(int size, int (*comp)(void*,void*))
 {
-    if (size<=0)
+    if (size<=0) {
+        error("size less than 1");
         return NULL;
-    MaxHeap heap = (MaxHeap)malloc(sizeof(struct node));
+    }
+    Heap heap = (Heap)malloc(sizeof(struct node));
     heap->heap = malloc((size+1)* sizeof(AnyType));
     heap->len = 0;
     heap->maxSize = size;
-    heap->heap[0]= MAXDATA;
-
+    heap->heap[0]= NULL;
+    heap->comp = comp;
     return heap;
 }
 
-bool isFull(MaxHeap heap)
+bool isFull(Heap heap)
 {
     if(heap->maxSize == heap->len)
         return true;
+    error("Heap is full!");
     return false;
 };
 
-bool isEmpty(MaxHeap heap)
+bool isEmpty(Heap heap)
 {
     return (bool) heap->len;
 };
@@ -39,13 +46,14 @@ bool isEmpty(MaxHeap heap)
 //
 //};
 // 下滤的实现
-static void sink(MaxHeap h, int k)
+static void sink(Heap h, int k)
 {
     int i = k*2;
     int j = k*2+1;
+    int (*compare)(void*,void*)= h->comp;
     if (i > h->len)
         return ;
-    if (h->heap[i] >= h->heap[j]) {
+    if (compare(h->heap[i], h->heap[j])>=0) {
         h->heap[k] = h->heap[i];
         sink(h, i);
     }
@@ -57,20 +65,21 @@ static void sink(MaxHeap h, int k)
 };
 
 
-bool insert(MaxHeap h,AnyType x)
+bool insert(Heap h,AnyType x)
 {
+    int (*compare)(void*,void*)= h->comp;
     if (isFull(h))
         return false;
-    int i = ++h->len;
-    for (; h->heap[i/2]<x;i/=2) {
 
+    int i = ++h->len;
+    for (;compare(x,h->heap[i/2])>=0;i/=2) {
         h->heap[i] = h->heap[i/2];
     }
     h->heap[i] = x;
     return true;
 };
 
-AnyType deleteMax(MaxHeap h)
+AnyType deleteMax(Heap h)
 {
     AnyType x = h->heap[1];
     sink(h,1);
@@ -78,9 +87,14 @@ AnyType deleteMax(MaxHeap h)
     return x;
 };
 
-void print(MaxHeap h)
+bool destroyHeap(Heap heap)
 {
-    for (int i = 1; i<=h->len ; ++i) {
-        printf("%d,",h->heap[i]);
-    }
-};
+    
+}
+
+//void print(Heap h)
+//{
+//    for (int i = 1; i<=h->len ; ++i) {
+//        printf("%d,",h->heap[i]);
+//    }
+//};
