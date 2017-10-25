@@ -49,7 +49,7 @@ bool clearQueue(LinkedQueue queue)
     queue->length = 0;
     queue->rear = queue->front;
 }
-bool isEmpty(LinkedQueue queue)
+bool isQueueEmpty(LinkedQueue queue)
 {
     return !queue->length;
 }
@@ -61,22 +61,27 @@ int queueLength(LinkedQueue queue)
 
 bool EnQueue(LinkedQueue queue,AnyType x)
 {
-    QueuePtr newNode = malloc(sizeof(struct QNode));
+    QueuePtr newNode = (QueuePtr)malloc(sizeof(struct QNode));
+    queue->length++;
     newNode->next = NULL;
     newNode->data = x;
     queue->rear->next = newNode;
     queue->rear = newNode;
-    queue->length++;
     return true;
 }
 AnyType DeQueue(LinkedQueue queue)
 {
-    if (isEmpty(queue))
+    if (isQueueEmpty(queue))
         return false;
     QueuePtr tmp = queue->front->next;
     queue->front->next = queue->front->next->next;
     AnyType result = tmp->data;
     free(tmp);
     queue->length--;
+    /*
+     * 如果最后长度为1的时候删去节点之后queue->rear要归位
+     */
+    if (isQueueEmpty(queue))
+        queue->rear = queue->front;
     return result;
 }

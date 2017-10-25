@@ -3,6 +3,7 @@
 ////
 #include "AVLTree.h"
 #include "../../LinearStructure/Stack/Stack.h"
+#include "../../LinearStructure/Queue/LinkedQueue.h"
 //#include <stdlib.h>
 //#include <stddef.h>
 //#include <stdio.h>
@@ -147,31 +148,29 @@ void NLR(AVLTree t)
     /*
      * 用栈实现递归操作
      */
+    printf("[");
     AVLTree T = t;
     Stack stack = createStack();
-    while (T || isEmpty(stack))
+    while (T!=NULL || !isEmpty(stack))
     {
         while(T){
             push(stack,T);
-            printf("%d \n",T->elem);
+            printf("%d, ",T->elem);
             T = T->left;
         }
         if (!isEmpty(stack)){
             T = pop(stack);
-            T->right;
+            T = T->right;
         }
     }
-
-
-//    push(stack,);
-
+    printf("]\n");
 }
 
 void LDR(AVLTree tree)
 {
-    AVLTree T = t;
+    AVLTree T = tree;
     Stack stack = createStack();
-    while (T || isEmpty(stack))
+    while (T!=NULL || !isEmpty(stack))
     {
         while(T){
             push(stack,T);
@@ -180,7 +179,63 @@ void LDR(AVLTree tree)
         if (!isEmpty(stack)){
             T = pop(stack);
             printf("%d \n",T->elem);
-            T->right;
+            T = T->right;
+        }
+    }
+}
+void LRN(AVLTree tree)
+{
+    printf("[");
+    AVLTree T = tree;
+    Stack stack = createStack();
+    while (T!=NULL || !isEmpty(stack))
+    {
+        while(T){
+            push(stack,T);
+            printf("%d, ",T->elem);
+            T = T->left;
+        }
+        if (!isEmpty(stack)){
+            T = pop(stack);
+            T = T->right;
+        }
+    }
+    printf("]\n");
+};
+
+void levelTraversal(AVLTree tree)
+{
+    printf("[");
+    AVLTree t = NULL;
+    LinkedQueue queue = createQueue();
+    EnQueue(queue,tree);
+    while (!isQueueEmpty(queue)) {
+        t = DeQueue(queue);
+        printf("%d, ",t->elem);
+        if (t->left)
+            EnQueue(queue, t->left);
+        if (t->right)
+            EnQueue(queue, t->right);
+    }
+    printf("]\n");
+};
+
+bool destroyAVL(AVLTree tree)
+{
+    AVLTree tmp = NULL; //用于释放内存的临时变量
+    AVLTree T = tree;
+    Stack stack = createStack();
+    while (T || !isEmpty(stack))
+    {
+        while(T){
+            push(stack,T);
+            T = T->left;
+        }
+        if (!isEmpty(stack)){
+            T = pop(stack);
+            tmp =T;
+            T = T->right;
+            free(tmp);
         }
     }
 }

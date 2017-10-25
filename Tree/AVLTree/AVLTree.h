@@ -5,10 +5,10 @@
 #ifndef TCPL_AVLTREE_H
 #define TCPL_AVLTREE_H
 
-#endif //TCPL_AVLTREE_H
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdbool.h>
 #define ALLOWED_IMBALANCE 1
 typedef struct node *AVLTree;
 //typedef Position ALVTree;
@@ -24,3 +24,8 @@ AVLTree insert(AVLTree, int);
 AVLTree AVLremove(AVLTree, int);
 AVLTree findMin(AVLTree);
 void NLR(AVLTree);
+void LDR(AVLTree);
+void LRN(AVLTree);
+void levelTraversal(AVLTree);
+bool destroyAVL(AVLTree);
+#endif //TCPL_AVLTREE_H

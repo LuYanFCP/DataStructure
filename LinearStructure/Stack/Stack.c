@@ -25,8 +25,8 @@ bool destroyStack(Stack stack)
 }
 bool isEmpty(Stack stack)
 {
-    // 判断栈顶是否是NULL
-    return stack->base[stack->top] == -1 ;
+    // 判断栈顶是否为-1
+    return stack->top == -1 ;
 };
 int stackLength(Stack stack)
 {

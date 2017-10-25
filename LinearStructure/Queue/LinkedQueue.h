@@ -29,7 +29,7 @@ struct Queue{
 LinkedQueue  createQueue();
 bool destroyQueue(LinkedQueue);
 bool clearQueue(LinkedQueue);
-bool isEmpty(LinkedQueue);
+bool isQueueEmpty(LinkedQueue);
 //bool isFull(LinkedQueue); LinkedQueue 不会满
 int queueLength(LinkedQueue);
 bool EnQueue(LinkedQueue,AnyType);
