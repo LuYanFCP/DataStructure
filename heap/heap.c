@@ -89,7 +89,8 @@ AnyType deleteMax(Heap h)
 
 bool destroyHeap(Heap heap)
 {
-    
+    free(heap->heap);
+    free(heap);
 }
 
 //void print(Heap h)

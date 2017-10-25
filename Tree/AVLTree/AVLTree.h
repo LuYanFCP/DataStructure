@@ -22,6 +22,5 @@ struct node{
 AVLTree createAVLTree(int);
 AVLTree insert(AVLTree, int);
 AVLTree AVLremove(AVLTree, int);
-
 AVLTree findMin(AVLTree);
 void NLR(AVLTree);

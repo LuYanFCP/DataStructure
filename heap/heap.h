@@ -14,7 +14,6 @@
 
 #define AnyType void*
 #define MAXDATA 1000
-#endif //TCPL_HEAP_H
 
 typedef struct node *Heap;
 struct node
@@ -32,3 +31,5 @@ bool isEmpty(Heap);
 AnyType deleteMax(Heap);
 void print(Heap);
 bool destroyHeap(Heap);
+
+#endif //TCPL_HEAP_H
