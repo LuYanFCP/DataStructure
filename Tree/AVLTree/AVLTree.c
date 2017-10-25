@@ -41,23 +41,27 @@ static int height(AVLTree T)
     return T ? (T->high) : -1;
 }
 
-AVLTree createAVLTree(int x)
+AVLTree createAVLTree(AnyType x,int (*compare)(void*,void*))
 {
     AVLTree t = (AVLTree)malloc(sizeof(struct node));
     t->elem = x;
     t->high = 0;
     t->right = NULL;
     t->left = NULL;
+    t->comp = compare;
     return t;
 }
-AVLTree insert(AVLTree t, int x)
+AVLTree insert(AVLTree t, AnyType x)
 {
     //判断传入是否为空指针
-    if(!t)
-        return createAVLTree(x);
-    if(x < t->elem)
+    if(!t){
+        error("AVLTree is NULL");
+        return NULL;
+    }
+    int (*compare)(void *x1,void *x2) = t->comp;
+    if(compare(x,t->elem)<0)
         t->left = insert(t->left, x);
-    if(x > t->elem)
+    if(compare(x,t->elem)>0)
         t->right = insert(t->right, x);
     t = balance(t);
     return t;
@@ -116,13 +120,16 @@ static AVLTree doubleRotateWithRightChild(AVLTree t1)
     return rotateWithRightChild(t1);
 }
 
-AVLTree AVLremove(AVLTree t, int x)
+AVLTree AVLremove(AVLTree t, AnyType x)
 {
-    if(!t)
+    if(!t) {
+        error("AVLremove error,the Tree is NULL");
         return t;
-    if(x > t->elem)
+    }
+    int (*compare)(void*,void*) = t->comp;
+    if(compare(x,t->elem)>0)
         AVLremove(t->right,x);
-    else if(x < t->elem)
+    else if(compare(x,t->elem)<0)
         AVLremove(t->left,x);
     else if (t->left!=NULL && t->right!=NULL){
         t->elem = findMin(t->right)->elem;
@@ -155,7 +162,7 @@ void NLR(AVLTree t)
     {
         while(T){
             push(stack,T);
-            printf("%d, ",T->elem);
+            printf("%p, ",T->elem);
             T = T->left;
         }
         if (!isEmpty(stack)){
@@ -178,7 +185,7 @@ void LDR(AVLTree tree)
         }
         if (!isEmpty(stack)){
             T = pop(stack);
-            printf("%d \n",T->elem);
+            printf("%p \n",T->elem);
             T = T->right;
         }
     }
@@ -192,7 +199,7 @@ void LRN(AVLTree tree)
     {
         while(T){
             push(stack,T);
-            printf("%d, ",T->elem);
+            printf("%p, ",T->elem);
             T = T->left;
         }
         if (!isEmpty(stack)){
@@ -211,7 +218,7 @@ void levelTraversal(AVLTree tree)
     EnQueue(queue,tree);
     while (!isQueueEmpty(queue)) {
         t = DeQueue(queue);
-        printf("%d, ",t->elem);
+        printf("%p, ",t->elem);
         if (t->left)
             EnQueue(queue, t->left);
         if (t->right)
