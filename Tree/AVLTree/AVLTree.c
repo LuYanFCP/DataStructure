@@ -23,6 +23,10 @@
 //AVLTree AVLremove(AVLTree, int);
 //
 //AVLTree findMin(AVLTree);
+
+static int (*compare)(void* , void*);  // 这有问题
+
+static AVLTree newNode(AnyType /*x*/);
 static AVLTree balance(AVLTree /*t*/);
 static AVLTree rotateWithLeftChild(AVLTree /*t1*/);
 static AVLTree doubleRotateWithLeftChild(AVLTree /*t1*/);
@@ -41,24 +45,29 @@ static int height(AVLTree T)
     return T ? (T->high) : -1;
 }
 
-AVLTree createAVLTree(AnyType x,int (*compare)(void*,void*))
+AVLTree createAVLTree(AnyType x,int (*comp)(void*,void*))
+{
+    AVLTree t = newNode(x);
+    compare=comp; //
+    return t;
+}
+
+static AVLTree newNode(AnyType x)
 {
     AVLTree t = (AVLTree)malloc(sizeof(struct node));
     t->elem = x;
     t->high = 0;
     t->right = NULL;
     t->left = NULL;
-    t->comp = compare;
     return t;
 }
+
 AVLTree insert(AVLTree t, AnyType x)
 {
     //判断传入是否为空指针
     if(!t){
-        error("AVLTree is NULL");
-        return NULL;
+        t = newNode(x);
     }
-    int (*compare)(void *x1,void *x2) = t->comp;
     if(compare(x,t->elem)<0)
         t->left = insert(t->left, x);
     if(compare(x,t->elem)>0)
@@ -126,7 +135,6 @@ AVLTree AVLremove(AVLTree t, AnyType x)
         error("AVLremove error,the Tree is NULL");
         return t;
     }
-    int (*compare)(void*,void*) = t->comp;
     if(compare(x,t->elem)>0)
         AVLremove(t->right,x);
     else if(compare(x,t->elem)<0)
@@ -144,6 +152,14 @@ AVLTree findMin(AVLTree t)
         return t;
     findMin(t->left);
 }
+
+/*
+ * 图的遍历
+ * 1. NLR（先序遍历）、LDR（中序遍历）、LRN（后续遍历） 这三个为DFS实现（深度有限搜索）
+ *      这三个也可以使用递归实现，下面也给处递归实现的方法
+ * 2. levelTraversal（层序遍历）使用BFS实现（广度优先搜索）
+ */
+
 //先序列遍历
 void NLR(AVLTree t)
 {
@@ -162,7 +178,7 @@ void NLR(AVLTree t)
     {
         while(T){
             push(stack,T);
-            printf("%p, ",T->elem);
+            printf("%d, ",*(int *)(T->elem)); //此处是调试使用的，实际问题中可以更改
             T = T->left;
         }
         if (!isEmpty(stack)){
@@ -175,6 +191,7 @@ void NLR(AVLTree t)
 
 void LDR(AVLTree tree)
 {
+    printf("[");
     AVLTree T = tree;
     Stack stack = createStack();
     while (T!=NULL || !isEmpty(stack))
@@ -185,10 +202,11 @@ void LDR(AVLTree tree)
         }
         if (!isEmpty(stack)){
             T = pop(stack);
-            printf("%p \n",T->elem);
+            printf("%d, ",*(int *)(T->elem));
             T = T->right;
         }
     }
+    printf("]\n");
 }
 void LRN(AVLTree tree)
 {
@@ -199,7 +217,7 @@ void LRN(AVLTree tree)
     {
         while(T){
             push(stack,T);
-            printf("%p, ",T->elem);
+            printf("%d, ",*(int *)(T->elem));//此处是调试使用的，实际问题中可以更改
             T = T->left;
         }
         if (!isEmpty(stack)){
@@ -218,7 +236,7 @@ void levelTraversal(AVLTree tree)
     EnQueue(queue,tree);
     while (!isQueueEmpty(queue)) {
         t = DeQueue(queue);
-        printf("%p, ",t->elem);
+        printf("%d, ",*(int *)(t->elem));//此处是调试使用的，实际问题中可以更改
         if (t->left)
             EnQueue(queue, t->left);
         if (t->right)

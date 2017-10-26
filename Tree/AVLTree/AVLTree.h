@@ -19,7 +19,6 @@ struct node{
     AVLTree left;
     AnyType elem;
     int high;  //从改节点到叶子的最长路径
-    int (*comp)(void* , void*);
 };
 
 AVLTree createAVLTree(AnyType,int (*compare)(void*,void*));
