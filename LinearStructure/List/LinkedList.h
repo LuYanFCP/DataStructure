@@ -5,20 +5,26 @@
 #ifndef DATASTRUCTURE_LINKEDLIST_H
 #define DATASTRUCTURE_LINKEDLIST_H
 
-#endif //DATASTRUCTURE_LINKEDLIST_H
 
-#define MAXVALUE 2147483647 // 哨兵
+#define error(x) printf("x \n",x)
 #define AnyType void*
 
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef struct Node *LinkedList;
+typedef struct Node *LNode;
+typedef struct List *LinkedList;
 struct Node{
-    LinkedList next;
-    LinkedList prev;
+    LNode next;
+    LNode prev;
     AnyType elem;
+};
+
+struct List{
+    LNode head;
+    LNode tail;
+    int size;
 };
 /*
  * 传入的LinkedList一直为初始那个
@@ -37,3 +43,4 @@ bool insertAfter(LinkedList,int,AnyType);
 bool insertBefore(LinkedList,int,AnyType);
 
 void printList(LinkedList);
+#endif //DATASTRUCTURE_LINKEDLIST_H
