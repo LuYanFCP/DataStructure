@@ -11,5 +11,5 @@ set(CMAKE_C_STANDARD 99)
 #set(SOURCE_FILES LinearStructure/List/LinkedList.c LinearStructure/List/ListTest.c)
 
 #set(SOURCE_FILES Tree/AVLTree/AVLTree.c Tree/AVLTree/AVLTreeTest.c LinearStructure/Stack/Stack.c LinearStructure/Queue/LinkedQueue.c)
-set(SOURCE_FILES  Graph/A)
+set(SOURCE_FILES Graph/AdjacentList.c)
 add_executable(data_structure ${SOURCE_FILES})

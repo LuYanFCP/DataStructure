@@ -11,18 +11,24 @@
 #include <stdio.h>
 #include "../LinearStructure/List/LinkedList.h"
 
-typedef struct List *Graph;
-struct List{
+typedef struct AL *LGraph;
+struct AL{
     char *vertex;//顶点集合
     LinkedList *list;
 };
+typedef struct {
+    char vertex_from;
+    char vertex_to;
+    int weight;
+} edge, *pEdge;
 
-Graph createMatrix(int/*rank*/ , int/*row*/, int[][]);
-bool BFS(Graph,bool (*f)(AnyType));
-bool DFS(Graph,bool (*f)(AnyType));
-Graph dijkstra(Graph);
-Graph flody(Graph);
-Graph kruskal(Graph);
-Graph prim(Graph);
+LGraph createMatrix(int/*node number*/,char[], int[][]);
+bool insertEdge(LGraph,pEdge);
+bool BFS(LGraph,bool (*f)(AnyType));
+bool DFS(LGraph,bool (*f)(AnyType));
+LGraph dijkstra(LGraph);
+LGraph flody(LGraph);
+LGraph kruskal(LGraph);
+LGraph prim(LGraph);
 
 #endif //DATASTRUCTURE_ADJACENTLIST_H

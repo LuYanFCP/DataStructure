@@ -15,3 +15,9 @@ DataStructure implement by C
 + Graph
     - [ ] Adjacent matrix
     - [ ] Adjacent List
+    - [ ] BFS/DFS
+    - [ ] Dijkstra
+    - [ ] Floyd
+    - [ ] Kruskal
+    - [ ] Prim
+
