@@ -4,30 +4,57 @@
 
 #ifndef DATASTRUCTURE_ADJACENTLIST_H
 #define DATASTRUCTURE_ADJACENTLIST_H
-
-#define AnyType void*
-
 #include <stdlib.h>
+#include <stdbool.h>
 #include <stdio.h>
-#include "../LinearStructure/List/LinkedList.h"
+#include <limits.h>
+
+#define DataType void*
+#define Vertex int
+#define WeigthType int
+#define error(x) printf("%s \n",x)
+#define INF INT_MAX
+
+//#include "../LinearStructure/List/LinkedList.h"
+
 
 typedef struct AL *LGraph;
-struct AL{
-    char *vertex;//顶点集合
-    LinkedList *list;
-};
-typedef struct {
-    char vertex_from;
-    char vertex_to;
-    int weight;
-} edge, *pEdge;
+typedef struct Vnode  AdjList;
+typedef struct AdjVNode *PtrToAdjVNode;
+typedef struct ENode *Edge;
 
-LGraph createMatrix(int/*node number*/,char[], int[][]);
-bool insertEdge(LGraph,pEdge);
-bool BFS(LGraph,bool (*f)(AnyType));
-bool DFS(LGraph,bool (*f)(AnyType));
-LGraph dijkstra(LGraph);
-LGraph flody(LGraph);
+struct Vnode{
+    PtrToAdjVNode FirstEdge;
+    DataType Data;
+};
+
+struct AL{
+    int Nn;//顶点数
+    int Ne; //边数
+    AdjList *list;
+};
+struct AdjVNode{
+    Vertex AdjV;
+    WeigthType weight;
+    PtrToAdjVNode next;
+};
+
+struct ENode{
+    Vertex v1,v2;
+    WeigthType weight;
+};
+
+
+LGraph createLGraph(int/*node number*/);
+LGraph buildLGraph(); // 从console中输入的数据进行构建
+bool insertEdge(LGraph,Edge);
+bool insertEdgeBoth(LGraph,Edge);
+
+bool BFS(LGraph,bool (*f)(DataType), Vertex /*begin*/);
+bool DFS(LGraph,bool (*f)(DataType), Vertex /*begin*/);
+
+int *dijkstra(LGraph,Vertex /*begin*/);
+//LGraph flody(LGraph); 临街链表主存储稀疏图 这里不用flody算法更好
 LGraph kruskal(LGraph);
 LGraph prim(LGraph);
 

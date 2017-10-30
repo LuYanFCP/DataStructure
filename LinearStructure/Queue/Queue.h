@@ -24,8 +24,8 @@ struct SqQueue{
 Queue createQueue(int/*容量*/);
 bool destroyQueue(Queue);
 bool clearQueue(Queue);
-bool isEmpty(Queue);
-bool isFull(Queue);
+bool isQueueEmpty(Queue);
+bool isQueueFull(Queue);
 int queueLength(Queue);
 bool EnQueue(Queue,AnyType);
 AnyType DeQueue(Queue);

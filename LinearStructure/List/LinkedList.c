@@ -214,3 +214,16 @@ void printList(LinkedList list )
         p = p->next;
     }
 }
+
+bool contain(LinkedList list,AnyType x, int (*compare)(AnyType x1,AnyType x2))
+{
+    /*  比较什么，只是X的地址吗？要不要传入一个比较函数
+     *  暂时完成只是比较
+     */
+    LNode p= list->head->next;
+    while (p){
+        if (compare(p,x)==0)
+            return true;
+    }
+    return false;
+}

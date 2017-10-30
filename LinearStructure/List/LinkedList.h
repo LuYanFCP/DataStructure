@@ -42,5 +42,7 @@ int searchElem(LinkedList,AnyType);
 bool insertAfter(LinkedList,int,AnyType);
 bool insertBefore(LinkedList,int,AnyType);
 
+bool contain(LinkedList,AnyType, int (*compare)(AnyType,AnyType));
+
 void printList(LinkedList);
 #endif //DATASTRUCTURE_LINKEDLIST_H

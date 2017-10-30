@@ -29,13 +29,13 @@ bool clearQueue(Queue queue)
     return true;
 }
 
-bool isEmpty(Queue queue)
+bool isQueueEmpty(Queue queue)
 {
     // 空的时候长度为0
     return !queue->length;
 }
 
-bool isFull(Queue queue)
+bool isQueueFull(Queue queue)
 {
     // 直接判断长度是否等于容量
     return queue->length == queue->volume;
@@ -49,7 +49,7 @@ int queueLength(Queue queue)
 bool EnQueue(Queue queue,AnyType x)
 {
     // 判断是否满
-    if (isFull(queue)) {
+    if (isQueueFull(queue)) {
         printf("queue is full ,element is %d:\n",x);
         return false;
     }
@@ -65,7 +65,7 @@ bool EnQueue(Queue queue,AnyType x)
 
 AnyType DeQueue(Queue queue)
 {
-    if (isEmpty(queue)) {
+    if (isQueueEmpty(queue)) {
         printf("queue is empty\n");
         return false;
     }
