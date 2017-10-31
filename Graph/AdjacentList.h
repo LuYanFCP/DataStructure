@@ -54,7 +54,7 @@ bool insertEdge2(LGraph , Vertex , Vertex , WeigthType );
 bool BFS(LGraph,bool (*f)(DataType), Vertex /*begin*/);
 bool DFS(LGraph,bool (*f)(DataType), Vertex /*begin*/);
 
-int *dijkstra(LGraph,Vertex /*begin*/);
+void dijkstra(LGraph, Vertex /*begin*/, int*/*disk*/, int* /*path*/);
 //LGraph flody(LGraph); 临街链表主存储稀疏图 这里不用flody算法更好
 LGraph kruskal(LGraph);
 LGraph prim(LGraph);

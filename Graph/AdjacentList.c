@@ -188,25 +188,80 @@ bool DFS(LGraph lGraph,bool (*f)(DataType), Vertex v/*begin*/)
         }
     }
 }
-/*
- * 最小堆的比较函数
- */
-int compare(void* param1, void* param2)
-{
-//    int
-}
-
     /*
      * 使用最小堆来进行更新和查找
-     *
      */
+int compare(void* param1, void* param2) {}
 
-int *dijkstra(LGraph lGraph,Vertex v/*begin*/)
+static int FindMin(const int *dist, const bool *collected,int Nn)
+{
+    int distance = INF;
+    int result = -1;
+    for (int i = 0; i < Nn; ++i) {
+        if (collected[i] == true) // 优先检查是否遍历到了，直接排除初始
+            continue;
+        if (dist[i]< distance){
+            result = i;
+            distance = dist[i];
+        }
+    }
+    return result;
+}
+
+void dijkstra(LGraph lGraph,Vertex begin, int *disk, int  *path)
 {
     int Nn = lGraph->Nn;
-    int collected[Nn];
-    Vertex V,M;
-    /*初始化*/
+    int v  = begin;
+    PtrToAdjVNode p;
+    bool collected[Nn];
+    /* 初始化: */
+    for (int i = 0; i < Nn ; ++i) {
+        collected[i] = false;
+    }
+    for (int i=0;i< Nn;i++) {
+        disk[i] = INF;
+        path[i] = -1;
+    }
+    /*处理初始节点*/
+    disk[v] = 0;
+    collected[v] = true;
+    for (p = lGraph->list[v].FirstEdge->next; p!=NULL ; p = p->next) {
+        disk[p->AdjV] = p->weight;
+    }
+
+    while (true){
+        v = FindMin(disk,collected,Nn); //找到未收录顶点中dist最小的；
+        if (v==-1)
+            break;
+        collected[v] = true;
+        p = lGraph->list[v].FirstEdge->next;
+        while (p){
+            if (collected[p->AdjV] == false)
+                if (disk[v]+p->weight < disk[p->AdjV]) {
+                    disk[p->AdjV] = disk[v] + p->weight;
+                    path[p->AdjV] = v;
+                }
+            p = p->next;
+        }
+    }
 }
-LGraph kruskal(LGraph);
-LGraph prim(LGraph);
+
+LGraph kruskal(LGraph lGraph)
+{
+    /*
+     *  1. MST 集合
+     *  2. 循环
+     *      1) 找到未收录顶点dist的最小者
+     *      2) 如果不存在跳出循环
+     *      3) 找与此节点连接的节点（未收录）
+     *      4) 如果两节点之间的权重小于距离的话
+     *      5) 把当前节点的dist存成E<v,w>
+     *      6) 记下来w之前的节点V
+     *  3. 判断
+     *      如果 MST中顶点是否有V个
+     */
+}
+LGraph prim(LGraph lGraph)
+{
+
+}
