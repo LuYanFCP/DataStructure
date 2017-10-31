@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <limits.h>
 
+
 #define DataType void*
 #define Vertex int
 #define WeigthType int
@@ -49,7 +50,7 @@ LGraph createLGraph(int/*node number*/);
 LGraph buildLGraph(); // 从console中输入的数据进行构建
 bool insertEdge(LGraph,Edge);
 bool insertEdgeBoth(LGraph,Edge);
-
+bool insertEdge2(LGraph , Vertex , Vertex , WeigthType );
 bool BFS(LGraph,bool (*f)(DataType), Vertex /*begin*/);
 bool DFS(LGraph,bool (*f)(DataType), Vertex /*begin*/);
 
