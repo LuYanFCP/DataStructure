@@ -21,11 +21,28 @@ void printLGraph(LGraph lGraph)
     printf("--------------------------------\n");
 }
 
+void printArray(int *arr,int Num)
+{
+    while(Num-->0)
+        printf("%d,",*(arr++));
+    printf("\n");
+}
+
 int main()
 {
-    LGraph lGraph = buildLGraph();
-    printLGraph(lGraph);
-    BFS(lGraph,NULL,0);
-    DFS(lGraph,NULL,1);
+//    LGraph lGraph = buildLGraph(insertEdge2);
+//    printLGraph(lGraph);
+//    BFS(lGraph,NULL,0);
+//    DFS(lGraph,NULL,1);
+//    printf("----------测试dijkstra------------ \n");
+//    int dist[lGraph->Nn];
+//    int path[lGraph->Nn];
+//    dijkstra(lGraph,0,dist,path);
+//    printf("dist: ");printArray(dist,lGraph->Nn);
+//    printf("path: ");printArray(path,lGraph->Nn);
+    printf("------------请输入测试prim算法使用的图---------------\n");
+    LGraph NVGraph = buildLGraph(insertEdgeBoth2);
+    printLGraph(NVGraph);
+    printLGraph(prim(NVGraph,0));
 
 }

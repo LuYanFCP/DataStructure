@@ -71,6 +71,28 @@ bool insertEdgeBoth(LGraph lGraph,Edge edge)
     return true;
 }
 
+bool insertEdgeBoth2(LGraph lGraph, Vertex v1, Vertex v2, WeigthType weight)
+{
+    PtrToAdjVNode newNode1 = malloc(sizeof(struct AdjVNode));
+
+    newNode1->weight = weight;
+    newNode1->AdjV = v2;
+    newNode1->next = lGraph->list[v1].FirstEdge->next;
+    lGraph->list[v1].FirstEdge->next = newNode1;
+    /*
+     * 第二次反过来插入一次
+     */
+
+    PtrToAdjVNode newNode2 = malloc(sizeof(struct AdjVNode));
+
+    newNode2->weight = weight;
+    newNode2->AdjV = v1;
+    newNode2->next = lGraph->list[v2].FirstEdge->next;
+    lGraph->list[v2].FirstEdge->next = newNode2;
+
+    return true;
+}
+
 bool BFS(LGraph lGraph,bool (*f)(DataType), Vertex begin/*begin*/)
 {
     printf("BFS: ["); //测试BFS用
@@ -121,11 +143,15 @@ bool BFS(LGraph lGraph,bool (*f)(DataType), Vertex begin/*begin*/)
 
 }
 
-static Edge newEdge()
+static Edge newEdge(Vertex v1, Vertex v2, WeigthType weight)
 {
-
+    Edge edge = malloc(sizeof(struct ENode));
+    edge->v1 = v1;
+    edge->v2 = v2;
+    edge->weight = weight;
+    return edge;
 }
-LGraph buildLGraph()
+LGraph buildLGraph(bool (*insert)(LGraph,Vertex,Vertex,WeigthType))
 {
     printf("请输入创建图的节点数：");
     int Nn;
@@ -141,7 +167,7 @@ LGraph buildLGraph()
     int weight;
     for (int i = 0; i < Ne ; ++i) {
         scanf("%d %d %d",&v1,&v2,&weight);
-        insertEdge2(lGraph,v1,v2,weight);
+        insert(lGraph,v1,v2,weight);
     }
     printf("结束输入,创建图完成!\n");
     return lGraph;
@@ -170,8 +196,7 @@ bool DFS(LGraph lGraph,bool (*f)(DataType), Vertex v/*begin*/)
     record[v] = true;
     recordNum++;
     while (w!=NULL && !isEmpty(stack)){
-        while (w!=NULL && !record[w->AdjV])
-        {
+        while (w!=NULL && !record[w->AdjV]) {
             push(stack,w);
             record[w->AdjV] = true;
             recordNum++;
@@ -180,7 +205,9 @@ bool DFS(LGraph lGraph,bool (*f)(DataType), Vertex v/*begin*/)
         }
         if (!isEmpty(stack)){
             w = pop(stack);
-            w = w->next;
+            while (!w->next){
+                w = pop(stack);
+            }
         }
         if (recordNum == Nn) {
             printf("]\n"); //测试用
@@ -208,7 +235,7 @@ static int FindMin(const int *dist, const bool *collected,int Nn)
     return result;
 }
 
-void dijkstra(LGraph lGraph,Vertex begin, int *disk, int  *path)
+void dijkstra(LGraph lGraph,Vertex begin, int *dist, int  *path)
 {
     int Nn = lGraph->Nn;
     int v  = begin;
@@ -219,34 +246,36 @@ void dijkstra(LGraph lGraph,Vertex begin, int *disk, int  *path)
         collected[i] = false;
     }
     for (int i=0;i< Nn;i++) {
-        disk[i] = INF;
+        dist[i] = INF;
         path[i] = -1;
     }
     /*处理初始节点*/
-    disk[v] = 0;
+    dist[v] = 0;
+    path[v] = 0;
     collected[v] = true;
     for (p = lGraph->list[v].FirstEdge->next; p!=NULL ; p = p->next) {
-        disk[p->AdjV] = p->weight;
+        dist[p->AdjV] = p->weight;
+        path[p->AdjV] = v;
     }
-
+    path[v] = -1;
     while (true){
-        v = FindMin(disk,collected,Nn); //找到未收录顶点中dist最小的；
+        v = FindMin(dist,collected,Nn); //找到未收录顶点中dist最小的；
         if (v==-1)
             break;
         collected[v] = true;
         p = lGraph->list[v].FirstEdge->next;
         while (p){
             if (collected[p->AdjV] == false)
-                if (disk[v]+p->weight < disk[p->AdjV]) {
-                    disk[p->AdjV] = disk[v] + p->weight;
+                if (dist[v]+p->weight < dist[p->AdjV]) {
+                    dist[p->AdjV] = dist[v] + p->weight;
                     path[p->AdjV] = v;
-                }
+                };
             p = p->next;
         }
     }
 }
 
-LGraph kruskal(LGraph lGraph)
+LGraph prim(LGraph lGraph, Vertex begin)
 {
     /*
      *  1. MST 集合
@@ -260,8 +289,53 @@ LGraph kruskal(LGraph lGraph)
      *  3. 判断
      *      如果 MST中顶点是否有V个
      */
+    int Nn = lGraph->Nn;
+    LGraph MST = createLGraph(Nn);
+    int Vn = 0;
+    int dist[Nn];
+    Vertex v = begin;
+    Vertex parent[Nn];
+    bool collected[Nn];
+    PtrToAdjVNode p;
+    /* 初始化: */
+    for (int i = 0; i < Nn ; ++i) {
+        collected[i] = false;
+    }
+    for (int i=0;i< Nn;i++) {
+        dist[i] = INF;
+    }
+    for (int i = 0; i < Nn; ++i) {
+        parent[i] = -1;
+    }
+    // 起点声明
+    collected[v] = true;
+    dist[v] = 0;
+    parent[v] = 0;
+    for (p = lGraph->list[v].FirstEdge->next; p!=NULL ; p = p->next) {
+        dist[p->AdjV] = p->weight;
+        parent[p->AdjV] = v;
+    }
+    while (true){
+        v = FindMin(dist,collected,Nn);
+        if (v == -1)
+            break;
+        collected[v] = true;
+        insertEdge2(MST,parent[v],v,dist[v]);
+        p = lGraph->list[v].FirstEdge->next;
+        while (p){
+            if (!collected[p->AdjV]) {
+                if (p->weight<dist[p->AdjV]) {
+                    dist[p->AdjV] = p->weight;
+                    parent[p->AdjV] =v;
+                }
+            }
+            p = p->next;
+        }
+    }
+    return MST;
 }
-LGraph prim(LGraph lGraph)
+
+LGraph kruskal(LGraph lGraph,Vertex begin)
 {
 
 }

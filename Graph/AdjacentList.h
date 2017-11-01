@@ -47,16 +47,17 @@ struct ENode{
 
 
 LGraph createLGraph(int/*node number*/);
-LGraph buildLGraph(); // 从console中输入的数据进行构建
+LGraph buildLGraph(bool (*insert)(LGraph,Vertex,Vertex,WeigthType)); // 从console中输入的数据进行构建
 bool insertEdge(LGraph,Edge);
 bool insertEdgeBoth(LGraph,Edge);
-bool insertEdge2(LGraph , Vertex , Vertex , WeigthType );
+bool insertEdge2(LGraph, Vertex, Vertex, WeigthType );
+bool insertEdgeBoth2(LGraph, Vertex, Vertex, WeigthType);
 bool BFS(LGraph,bool (*f)(DataType), Vertex /*begin*/);
 bool DFS(LGraph,bool (*f)(DataType), Vertex /*begin*/);
 
 void dijkstra(LGraph, Vertex /*begin*/, int*/*disk*/, int* /*path*/);
 //LGraph flody(LGraph); 临街链表主存储稀疏图 这里不用flody算法更好
-LGraph kruskal(LGraph);
-LGraph prim(LGraph);
+LGraph kruskal(LGraph, Vertex /*begin*/);
+LGraph prim(LGraph, Vertex /*begin*/);
 
 #endif //DATASTRUCTURE_ADJACENTLIST_H
