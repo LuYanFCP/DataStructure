@@ -384,8 +384,6 @@ DijSets kruskal(LGraph lGraph)
             setUnion(MST,v1,v2);
         }
     }
-
-
     return MST;
 
 }

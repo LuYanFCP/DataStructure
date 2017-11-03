@@ -6,7 +6,7 @@
 #define DATASTRUCTURE_DISJSETS_H
 
 //#define AnyType void*
-#define AnyType int
+#define ElemType int
 #define error(x) printf("error: %s\n",x)
 #include <malloc.h>
 #include <printf.h>
@@ -24,9 +24,9 @@ struct node{
 };
 
 DijSets createDijSet(); //返回一个空的不相交集
-void insertNode(DijSets,AnyType);
-void setUnion(DijSets,AnyType,AnyType);//包含两个元素的集合合并
+void insertNode(DijSets,ElemType);
+void setUnion(DijSets,ElemType,ElemType);//包含两个元素的集合合并
 
-Node find(AnyType);
+Node find(ElemType);
 
 #endif //DATASTRUCTURE_DISJSETS_H

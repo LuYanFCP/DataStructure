@@ -3,7 +3,7 @@
 //
 #include "DisjSets.h"
 
-static Node isContain(AnyType);
+static Node isContain(ElemType);
 static void link(Node /*root1*/,Node /*root2*/);
 static Node findSet(Node /*n*/);
 
@@ -17,7 +17,7 @@ DijSets createDijSet()
     dijSets = new;
     return new;
 } //返回一个空的不相交集
-void insertNode(DijSets dijSets,AnyType x)
+void insertNode(DijSets dijSets,ElemType x)
 {
     if (isContain(x)!=NULL){
         error("element is exist");
@@ -30,7 +30,7 @@ void insertNode(DijSets dijSets,AnyType x)
     insertElem(dijSets->forests,newx);
     dijSets->setCounter++;
 }
-void setUnion(DijSets dijSets,AnyType x,AnyType y) //包含两个元素的集合合并
+void setUnion(DijSets dijSets, ElemType x, ElemType y) //包含两个元素的集合合并
 {
     if(x==y) {
         error("两元素不能相等");
@@ -49,7 +49,7 @@ static Node findSet(Node n)
     return n->parent;
 }
 
-Node find(AnyType x)
+Node find(ElemType x)
 {
     Node n = isContain(x);
     if (n==NULL){
@@ -59,7 +59,7 @@ Node find(AnyType x)
     return findSet(n);
 }
 
-static Node isContain(AnyType x)
+static Node isContain(ElemType x)
 {
     Node tmp;
     ArrayList list =dijSets->forests;
