@@ -5,7 +5,7 @@
 
 static Node isContain(AnyType);
 static void link(Node /*root1*/,Node /*root2*/);
-static Node findSet(Node);
+static Node findSet(Node /*n*/);
 
 static DijSets dijSets;
 

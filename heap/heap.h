@@ -28,7 +28,7 @@ Heap create(int /*size*/, int (*comp)(void*,void*));
 bool isFull(Heap);
 bool insert(Heap ,AnyType);
 bool isEmpty(Heap);
-AnyType deleteMax(Heap);
+AnyType deleteRoot(Heap);
 void print(Heap);
 bool destroyHeap(Heap);
 

@@ -79,7 +79,7 @@ bool insert(Heap h,AnyType x)
     return true;
 };
 
-AnyType deleteMax(Heap h)
+AnyType deleteRoot(Heap h)
 {
     AnyType x = h->heap[1];
     sink(h,1);

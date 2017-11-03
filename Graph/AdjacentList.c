@@ -335,7 +335,57 @@ LGraph prim(LGraph lGraph, Vertex begin)
     return MST;
 }
 
-LGraph kruskal(LGraph lGraph,Vertex begin)
+Heap getEdgesHeap(LGraph lGraph,int (*compare)(void*,void*))
 {
+    int Vn = lGraph->Nn;
+    Heap heap = create(lGraph->Ne,compare);
+    PtrToAdjVNode head,tmp;
+    Edge edge;
+
+    /*
+     * 无向图无法结局
+     */
+    for (int i = 0; i < Vn; ++i) {
+        head = lGraph->list[i].FirstEdge;
+        for (tmp = head->next; tmp!=NULL ; tmp = tmp->next) {
+            edge = malloc(sizeof(struct ENode));
+            edge->v1 = i;
+            edge->v2 = tmp->AdjV;
+            edge->weight = tmp->weight;
+            insert(heap,edge);
+        }
+    }
+    return heap;
+}
+
+static  int minHeapComp(void* x1,void* x2){
+    Edge edge1 = (Edge)x1;
+    Edge edge2 = (Edge)x2;
+    WeigthType weight1 = edge1->weight;  // 这里的weight是int
+    WeigthType weight2 = edge2->weight;
+    return weight1<weight2 ? 1: \
+                weight1>weight2 ? -1:0;
+
+};
+
+DijSets kruskal(LGraph lGraph)
+{
+    DijSets MST = createDijSet();
+    for (int i = 0; i < lGraph->Nn; ++i) {
+        insertNode(MST, i);
+    }
+    Heap pq = getEdgesHeap(lGraph,minHeapComp);
+
+    while (MST->setCounter != lGraph->Nn) {
+        Edge e = deleteRoot(pq);
+        Vertex v1 = e->v1;
+        Vertex v2 = e->v2;
+        if (v1!=v2){
+            setUnion(MST,v1,v2);
+        }
+    }
+
+
+    return MST;
 
 }

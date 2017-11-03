@@ -5,7 +5,8 @@
 #ifndef DATASTRUCTURE_DISJSETS_H
 #define DATASTRUCTURE_DISJSETS_H
 
-#define AnyType void*
+//#define AnyType void*
+#define AnyType int
 #define error(x) printf("error: %s\n",x)
 #include <malloc.h>
 #include <printf.h>
