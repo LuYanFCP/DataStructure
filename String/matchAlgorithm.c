@@ -3,28 +3,44 @@
 // email:lyhxbq@gmail.com
 //
 #include <stdio.h>
-
 // 求next数组
-void getNext(const char *t, int *next, int t_len)
+void getNext(const char *t, int *next)
 {
-    int j; //后缀指针
-    int k; //前缀指针
-    int z; //next index
-    // 初始化next数组
-    for (int i = 0; i < t_len; ++i) {
-        z = (i+1) % t_len;
-        next[z]= 0;
-        for (j=1,k=0; j <= i && k<j ; ++j) {
-            if (t[k] == t[j]){
-                k++;
-                next[z]++;
-            } else{
-                next[z] = 0;
-                k = 0;
-            }
-        }
-    }
-    next[0]=-1;
+    /*
+     * 第一种思路，计算部分匹配值然后错位
+     */
+//    int j; //后缀指针
+//    int k; //前缀指针
+//    int z; //next index
+//    // 初始化next数组
+//    for (int i = 0; i < t_len; ++i) {
+//        z = (i+1) % t_len;
+//        next[z]= 0;
+//        for (j=1,k=0; j <= i && k<j ; ++j) {
+//            if (t[k] == t[j]){
+//                k++;
+//                next[z]++;
+//            } else{
+//                next[z] = 0;
+//                k = 0;
+//            }
+//        }
+//    }
+//    next[0]=-1;
+    /*
+     * 第二种直接递归计算
+     *
+     */
+    t_len = strlen(t);
+    next[0] = -1;
+    int i = 0/*后缀*/, j = -1/*前缀*/;
+    while (i<t_len)
+        if (j==-1 || t[i]==t[j]){
+            i++;
+            j++;
+            next[i] = j;
+        } else
+            j = next[j];
 
 }
 
@@ -39,9 +55,9 @@ int kmp(char* s, char* t, int s_len, int t_len, int pos)
     str_t=t;
     i = pos;
     j = 0;
-    getNext(str_t,next,t_len);
+    getNext(str_t,next);
     while (i<s_len && j<t_len){
-        if(j==-1 || str_s[i] == str_t[j]){
+        if(j == -1 || str_s[i] == str_t[j]){
             i++;
             j++;
         } else

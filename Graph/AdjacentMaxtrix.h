@@ -4,19 +4,21 @@
 
 #ifndef DATASTRUCTURE_ADJACENTMAXTRIX_H
 #define DATASTRUCTURE_ADJACENTMAXTRIX_H
-
-#define weightType void*
-#define INF
-#define Vertex int
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
+#include <stdbool.h>
+
+#define weightType int
+#define INF INT_MAX
+#define Vertex int
 
 
 typedef struct ENode *Edge;
 typedef struct matrix *MGraph;
 
 struct matrix{
-    weightType *elem;
+    weightType **elem;
     int maxVertexNum;  // 节点名称
     /*
      *  缺少节点的数据
@@ -31,11 +33,14 @@ struct ENode{
 MGraph createMatrix(int/*MaxVertexNum*/);
 MGraph buildMGraph(); //通过I/O创建MGraph
 bool insertEdge(MGraph,Edge);
-bool BFS(MGraph,bool (*f)(weightType));
-bool DFS(MGraph,bool (*f)(weightType));
-MGraph dijkstra(MGraph);
-MGraph flody(MGraph);
+bool insertEdge2(MGraph,Vertex ,Vertex, weightType);
+bool insertEdgeBoth(MGraph,Edge);
+bool insertEdgeBoth2(MGraph,Vertex ,Vertex, weightType);
+bool BFS(MGraph,Vertex /*begin*/);
+bool DFS(MGraph,Vertex /*begin*/);
+void dijkstra(MGraph, Vertex /*begin*/, int*/*disk*/, int* /*path*/);
+bool flody(MGraph,weightType**,Vertex**);
 MGraph kruskal(MGraph);
-MGraph prim(MGraph);
+void prim(MGraph,Vertex *parent);
 bool destroyGraph(MGraph);
 #endif //DATASTRUCTURE_ADJACENTMAXTRIX_H
