@@ -5,7 +5,9 @@ DataStructure implement by C
     - [x] List
     - [x] Stack
     - [x] Queue
-
+    - String
+        - [x] KMP
+        - [ ] BM
 + Tree
     - [x] BinaryTree
     - [x] AVLTree
@@ -13,11 +15,12 @@ DataStructure implement by C
     - [ ] splayTree
 
 + Graph
-    - [ ] Adjacent matrix
+    - [x] Adjacent matrix
     - [x] Adjacent List
     - [x] BFS/DFS
     - [x] Dijkstra
-    - [ ] Floyd
-    - [ ] Kruskal
+    - [x] Floyd
+    - [x] Kruskal
     - [x] Prim
+   
 
